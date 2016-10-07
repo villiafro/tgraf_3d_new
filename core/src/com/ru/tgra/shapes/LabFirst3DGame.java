@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import java.nio.FloatBuffer;
 
 import com.badlogic.gdx.utils.BufferUtils;
+import com.sun.javafx.sg.prism.NGShape;
 
 public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor {
 
@@ -27,6 +28,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private int projectionMatrixLoc;
 
 	private int colorLoc;
+
+	float deltaTime;
+	Camera cam;
+	float angle;
 
 	//private ModelMatrix modelMatrix;
 
@@ -104,34 +109,60 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 		//OrthographicProjection3D(-2, 2, -2, 2, 1, 100);
 		PerspctiveProjection3D();
-		Look3D(new Point3D(1.5f, 1.2f, 2.0f), new Point3D(0,0,0), new Vector3D(0,1,0));
+		//Look3D(new Point3D(1.5f, 1.2f, 2.0f), new Point3D(0,0,0), new Vector3D(0,1,0));
+
+		cam = new Camera(viewMatrixLoc);
+		cam.look(new Point3D(-13f,7f,9f),new Point3D(0,3,0),new Vector3D(0,1,0));
 	}
 
 	private void input()
 	{
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+			cam.yaw(90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+			cam.yaw(-90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.UP)) {
+			cam.pitch(90.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+			cam.pitch(-90.0f * deltaTime);
 		}
+
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
+			cam.slide(-3.0f * deltaTime, 0, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
+			cam.slide(3.0f * deltaTime, 0, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
+			cam.slide(0, 0, -3.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
+			cam.slide(0, 0, 3.0f * deltaTime);
+		}
+
+		if(Gdx.input.isKeyPressed(Input.Keys.R)) {
+			cam.slide(0, 3.0f * deltaTime, 0);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.F)) {
+			cam.slide(0, -3.0f * deltaTime, 0);
+		}
+
+		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
+			cam.roll(-90.0f * deltaTime);
+		}
+		if(Gdx.input.isKeyPressed(Input.Keys.E)) {
+			cam.roll(90.0f * deltaTime);
 		}
 	}
 	
 	private void update()
 	{
-		float deltaTime = Gdx.graphics.getDeltaTime();
+		deltaTime = Gdx.graphics.getDeltaTime();
 
-		//angle += 180.0f * deltaTime;
+		angle += 180.0f * deltaTime;
 
 		//do all updates to the game
 	}
@@ -141,18 +172,51 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//do all actual drawing and rendering here
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-		Gdx.gl.glUniform4f(colorLoc, 0.9f, 0.3f, 0.1f, 1.0f);
+		Gdx.gl.glUniform4f(colorLoc, 0.5f, 0.3f, 1.0f, 1.0f);
+
+		cam.setShaderMatrix();
 
 		ModelMatrix.main.loadIdentityMatrix();
 		//ModelMatrix.main.addTranslation(250, 250, 0);
+
+		int maxLevel = 9;
+
 		ModelMatrix.main.pushMatrix();
-		ModelMatrix.main.addScale(1.0f, 1.0f, 1.0f);
-		ModelMatrix.main.setShaderMatrix();
-		BoxGraphic.drawSolidCube();
+		for(int level = 0; level < maxLevel; level++)
+		{
+			ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
+			ModelMatrix.main.pushMatrix();
+			for(int i = 0; i < maxLevel-level; i++)
+			{
+				ModelMatrix.main.addTranslation(1.1f, 0f, 0f);
+				ModelMatrix.main.pushMatrix();
+				for(int j = 0; j < maxLevel-level; j++)
+				{
+					ModelMatrix.main.addTranslation(0f, 0f, -1.1f);
+					ModelMatrix.main.pushMatrix();
+					if(i % 2 == 0){
+						ModelMatrix.main.addScale(0.2f, 1, 1);
+					}
+					else{
+						ModelMatrix.main.addScale(1, 1, 0.2f);
+					}
+					ModelMatrix.main.setShaderMatrix();
+					//SphereGraphic.drawSolidSphere();
+					BoxGraphic.drawSolidCube();
+					ModelMatrix.main.popMatrix();
+				}
+				ModelMatrix.main.popMatrix();
+			}
+			ModelMatrix.main.popMatrix();
+
+		}
+		ModelMatrix.main.popMatrix();
+
+		//ModelMatrix.main.addScale(1.0f, 1.0f, 1.0f);
+		//BoxGraphic.drawSolidCube();
 		//BoxGraphic.drawOutlineCube();
 		//SphereGraphic.drawSolidSphere();
 		//SphereGraphic.drawOutlineSphere();
-		ModelMatrix.main.popMatrix();
 
 	}
 
