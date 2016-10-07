@@ -8,7 +8,9 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 
 import java.nio.FloatBuffer;
+import java.util.Random;
 
+import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer;
 import com.badlogic.gdx.utils.BufferUtils;
 import com.sun.javafx.sg.prism.NGShape;
 
@@ -32,6 +34,9 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	float deltaTime;
 	Camera cam;
 	float angle;
+
+	Random rand;
+	int[] arr;
 
 	//private ModelMatrix modelMatrix;
 
@@ -112,7 +117,13 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//Look3D(new Point3D(1.5f, 1.2f, 2.0f), new Point3D(0,0,0), new Vector3D(0,1,0));
 
 		cam = new Camera(viewMatrixLoc);
-		cam.look(new Point3D(-13f,7f,9f),new Point3D(0,3,0),new Vector3D(0,1,0));
+		cam.look(new Point3D(-6f,7f,6f),new Point3D(0,3,0),new Vector3D(0,1,0));
+
+		rand = new Random();
+		arr = new int[100];
+		for(int i = 0; i < 100; i++){
+			arr[i] = rand.nextInt(10);
+		}
 	}
 
 	private void input()
@@ -177,38 +188,79 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		cam.setShaderMatrix();
 
 		ModelMatrix.main.loadIdentityMatrix();
-		//ModelMatrix.main.addTranslation(250, 250, 0);
 
 		int maxLevel = 9;
+
+		//BOTTOM
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addTranslation(6.0f, 0.4f, -6.0f);
+		ModelMatrix.main.addScale(11, 0.2f, 11);
+		ModelMatrix.main.setShaderMatrix();
+		BoxGraphic.drawSolidCube();
+		ModelMatrix.main.popMatrix();
+
+		//FRONT
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addTranslation(0.6f, 1f, -6.0f);
+		ModelMatrix.main.addScale(0.2f, 1, 11);
+		ModelMatrix.main.setShaderMatrix();
+		BoxGraphic.drawSolidCube();
+		ModelMatrix.main.popMatrix();
+
+		//BACK
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addTranslation(11.4f, 1f, -6.0f);
+		ModelMatrix.main.addScale(0.2f, 1, 11);
+		ModelMatrix.main.setShaderMatrix();
+		BoxGraphic.drawSolidCube();
+		ModelMatrix.main.popMatrix();
+
+		//LEFT
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addTranslation(6.0f, 1f, -11.4f);
+		ModelMatrix.main.addScale(11, 1, 0.2f);
+		ModelMatrix.main.setShaderMatrix();
+		BoxGraphic.drawSolidCube();
+		ModelMatrix.main.popMatrix();
+
+		//RIGHT
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addTranslation(6.0f, 1f, -0.6f);
+		ModelMatrix.main.addScale(11, 1, 0.2f);
+		ModelMatrix.main.setShaderMatrix();
+		BoxGraphic.drawSolidCube();
+		ModelMatrix.main.popMatrix();
+
+		int randomizer = 0;
 
 		ModelMatrix.main.pushMatrix();
 		for(int level = 0; level < maxLevel; level++)
 		{
 			ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
 			ModelMatrix.main.pushMatrix();
-			for(int i = 0; i < maxLevel-level; i++)
+			for(int i = 0; i < maxLevel-level-level; i++)
 			{
 				ModelMatrix.main.addTranslation(1.1f, 0f, 0f);
 				ModelMatrix.main.pushMatrix();
-				for(int j = 0; j < maxLevel-level; j++)
+				for(int j = 0; j < maxLevel-level*maxLevel; j++)
 				{
 					ModelMatrix.main.addTranslation(0f, 0f, -1.1f);
 					ModelMatrix.main.pushMatrix();
-					if(i % 2 == 0){
-						ModelMatrix.main.addScale(0.2f, 1, 1);
+					if(arr[randomizer] % 2 == 0){
+						ModelMatrix.main.addScale(0.2f, 1, 1.2f);
 					}
 					else{
-						ModelMatrix.main.addScale(1, 1, 0.2f);
+						ModelMatrix.main.addScale(1.2f, 1, 0.2f);
 					}
 					ModelMatrix.main.setShaderMatrix();
 					//SphereGraphic.drawSolidSphere();
 					BoxGraphic.drawSolidCube();
 					ModelMatrix.main.popMatrix();
+					randomizer++;
 				}
 				ModelMatrix.main.popMatrix();
 			}
 			ModelMatrix.main.popMatrix();
-
 		}
 		ModelMatrix.main.popMatrix();
 

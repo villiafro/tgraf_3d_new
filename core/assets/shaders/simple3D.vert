@@ -29,7 +29,7 @@ void main()
 
 	//eye coordinates
 
-	v_color = (dot(normal, normalize(vec4(-position.x, -position.y, -position.z,0))) / length(normal)) * u_color;
+	v_color = (dot(normal, normalize(vec4(-position.x, -position.y, -position.z, 0))) / length(normal)) * u_color;
 
 	gl_Position = u_projectionMatrix * position;
 }
