@@ -142,23 +142,23 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-			cam.slide(-3.0f * deltaTime, 0, 0);
+			cam.slide(-3.0f * deltaTime * 10, 0, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-			cam.slide(3.0f * deltaTime, 0, 0);
+			cam.slide(3.0f * deltaTime * 10, 0, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-			cam.slide(0, 0, -3.0f * deltaTime);
+			cam.slide(0, 0, -3.0f * deltaTime * 10);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-			cam.slide(0, 0, 3.0f * deltaTime);
+			cam.slide(0, 0, 3.0f * deltaTime * 10);
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.R)) {
-			cam.slide(0, 3.0f * deltaTime, 0);
+			cam.slide(0, 3.0f * deltaTime * 10, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.F)) {
-			cam.slide(0, -3.0f * deltaTime, 0);
+			cam.slide(0, -3.0f * deltaTime * 10, 0);
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.Q)) {
@@ -191,46 +191,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 		int maxLevel = 9;
 
-		//BOTTOM
-		ModelMatrix.main.pushMatrix();
-		ModelMatrix.main.addTranslation(6.0f, 0.4f, -6.0f);
-		ModelMatrix.main.addScale(11, 0.2f, 11);
-		ModelMatrix.main.setShaderMatrix();
-		BoxGraphic.drawSolidCube();
-		ModelMatrix.main.popMatrix();
-
-		//FRONT
-		ModelMatrix.main.pushMatrix();
-		ModelMatrix.main.addTranslation(0.6f, 1f, -6.0f);
-		ModelMatrix.main.addScale(0.2f, 1, 11);
-		ModelMatrix.main.setShaderMatrix();
-		BoxGraphic.drawSolidCube();
-		ModelMatrix.main.popMatrix();
-
-		//BACK
-		ModelMatrix.main.pushMatrix();
-		ModelMatrix.main.addTranslation(11.4f, 1f, -6.0f);
-		ModelMatrix.main.addScale(0.2f, 1, 11);
-		ModelMatrix.main.setShaderMatrix();
-		BoxGraphic.drawSolidCube();
-		ModelMatrix.main.popMatrix();
-
-		//LEFT
-		ModelMatrix.main.pushMatrix();
-		ModelMatrix.main.addTranslation(6.0f, 1f, -11.4f);
-		ModelMatrix.main.addScale(11, 1, 0.2f);
-		ModelMatrix.main.setShaderMatrix();
-		BoxGraphic.drawSolidCube();
-		ModelMatrix.main.popMatrix();
-
-		//RIGHT
-
-		ModelMatrix.main.pushMatrix();
-		ModelMatrix.main.addTranslation(6.0f, 1f, -0.6f);
-		ModelMatrix.main.addScale(11, 1, 0.2f);
-		ModelMatrix.main.setShaderMatrix();
-		BoxGraphic.drawSolidCube();
-		ModelMatrix.main.popMatrix();
+		drawWorld();
 
 		int randomizer = 0;
 
@@ -238,6 +199,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		for(int level = 0; level < maxLevel; level++)
 		{
 			ModelMatrix.main.addTranslation(0.55f, 1.0f, -0.55f);
+			ModelMatrix.main.addScale(15, 15, 15);
 			ModelMatrix.main.pushMatrix();
 			for(int i = 0; i < maxLevel-level-level; i++)
 			{
@@ -283,13 +245,27 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 	}
 
-	public void drawInitialWall(float a, float b, float c, float d, float e, float f){
+
+	public void drawInitialWall(float a, float b, float c, float d, float e, float f) {
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addTranslation(a, b, c);
+		ModelMatrix.main.addScale(15, 15, 15);
 		ModelMatrix.main.addScale(d, e, f);
 		ModelMatrix.main.setShaderMatrix();
 		BoxGraphic.drawSolidCube();
 		ModelMatrix.main.popMatrix();
+	}
+	public void drawWorld(){
+		//BOTTOM
+		drawInitialWall(82.5f, -8f, -82.5f,11, 0.2f, 11);
+		//FRONT
+		drawInitialWall(1.5f, 1f, -82.5f,0.2f, 1, 11);
+		//BACK
+		drawInitialWall(163.5f, 1f, -82.5f,0.2f, 1, 11);
+		//LEFT
+		drawInitialWall(82.5f, 1f, -163.5f,11, 1, 0.2f);
+		//RIGHT
+		drawInitialWall(82.5f, 1f, -1.5f,11, 1, 0.2f);
 	}
 
 	private void Look3D(Point3D eye, Point3D center, Vector3D up) {
