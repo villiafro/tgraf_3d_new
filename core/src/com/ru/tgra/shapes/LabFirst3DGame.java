@@ -224,6 +224,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		ModelMatrix.main.popMatrix();
 
 		//RIGHT
+
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addTranslation(6.0f, 1f, -0.6f);
 		ModelMatrix.main.addScale(11, 1, 0.2f);
@@ -280,6 +281,15 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		update();
 		display();
 
+	}
+
+	public void drawInitialWall(float a, float b, float c, float d, float e, float f){
+		ModelMatrix.main.pushMatrix();
+		ModelMatrix.main.addTranslation(a, b, c);
+		ModelMatrix.main.addScale(d, e, f);
+		ModelMatrix.main.setShaderMatrix();
+		BoxGraphic.drawSolidCube();
+		ModelMatrix.main.popMatrix();
 	}
 
 	private void Look3D(Point3D eye, Point3D center, Vector3D up) {
