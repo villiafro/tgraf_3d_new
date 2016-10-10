@@ -122,11 +122,11 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//Look3D(new Point3D(1.5f, 1.2f, 2.0f), new Point3D(0,0,0), new Vector3D(0,1,0));
 
 		cam = new Camera(viewMatrixLoc);
-		cam.look(new Point3D(1,1,1),new Point3D(10,3,10),new Vector3D(0,10,0));
+		cam.look(new Point3D(1f,1f,1f),new Point3D(5,1.5f,5),new Vector3D(0,5,0));
 
 		rand = new Random();
-		arr = new boolean[1000];
-		for(int i = 0; i < 1000; i++){
+		arr = new boolean[200];
+		for(int i = 0; i < 200; i++){
 			arr[i] = rand.nextBoolean();
 		}
 
@@ -144,6 +144,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	public static ArrayList<Obstacle> getObstacles() {
 		return obstacles;
 	}
+
+	public static Cell[][] getCells(){
+        return cells;
+    }
 
 	private void input()
 	{
@@ -220,21 +224,26 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
         {
             for(int j = 0; j < maxLevel; j++)
             {
+                /*if(i > 0 && cells[i-1][j].westWall){
 
+                }*/
                 if(arr[randomizer++]){
                     cells[i][j].westWall = true;
                     ModelMatrix.main.pushMatrix();
                     ModelMatrix.main.addTranslation((float)i + 0.5f,0.5f,(float)j + 0.0f);
-                    ModelMatrix.main.addScale(1f,1f,0.2f);
+                    ModelMatrix.main.addScale(1.2f,1f,0.2f);
                     ModelMatrix.main.setShaderMatrix();
                     BoxGraphic.drawSolidCube();
                     ModelMatrix.main.popMatrix();
                 }
+                /*if(j > 0 && cells[i][j-1].southWall){
+
+                }*/
                 if(arr[randomizer++]){
                     cells[i][j].southWall = true;
                     ModelMatrix.main.pushMatrix();
                     ModelMatrix.main.addTranslation((float)j + 0.0f,0.5f,(float)i + 0.5f);
-                    ModelMatrix.main.addScale(0.2f,1f,1f);
+                    ModelMatrix.main.addScale(0.2f,1f,1.2f);
                     ModelMatrix.main.setShaderMatrix();
                     BoxGraphic.drawSolidCube();
                     ModelMatrix.main.popMatrix();
@@ -243,7 +252,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
         }
         ModelMatrix.main.popMatrix();
 
-		//ModelMatrix.main.addScale(1.0f, 1.0f, 1.0f);
 		//BoxGraphic.drawSolidCube();
 		//BoxGraphic.drawOutlineCube();
 		//SphereGraphic.drawSolidSphere();
@@ -278,13 +286,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		drawInitialWall(0f, 0.5f, 5f,0.2f, 1, 10);
 		//BACK
         drawInitialWall(10f, 0.5f, 5f,0.2f, 1, 10);
-		//drawInitialWall(163.5f, 2f, -82.5f,3f, 30, 11*15);
 		//LEFT
         drawInitialWall(5f, 0.5f, 0f,10, 1, 0.2f);
-		//drawInitialWall(82.5f, 2f, -163.5f,11*15, 30, 3f);
 		//RIGHT
         drawInitialWall(5f, 0.5f, 10f,10, 1, 0.2f);
-		//drawInitialWall(82.5f, 2f, -1.5f,11*15, 30, 3f);
 	}
 
 	private void Look3D(Point3D eye, Point3D center, Vector3D up) {

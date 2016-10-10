@@ -48,50 +48,84 @@ public class Camera {
         nextEye.set(eye.x+delU*u.x + delV*v.x + delN*n.x, eye.y, eye.z+delU*u.z + delV*v.z + delN*n.z);
 
         for(int i = 0; i < obstacles.size(); i++){
-            //System.out.println("i is: " + i);
             checkWall(obstacles.get(i), nextEye);
         }
-        eye.x = nextEye.x;
-        eye.y += delU*u.y + delV*v.y + delN*n.y;
-        eye.z = nextEye.z;
+        //eye.x = nextEye.x;
+        //eye.y += delU*u.y + delV*v.y + delN*n.y;
+        //eye.z = nextEye.z;
     }
 
     void checkWall(Obstacle ob, Point3D tempEye){
-        /*if(eye.z < tempEye.z){
-            if(!(eye.z >= ob.getZcord()-ob.getZscale())){
-                System.out.println("eye.z > tempEye.z");
-                System.out.println("eye.z: " + eye.z);
-                System.out.println("TempEye.z: " + tempEye.z);
-                System.out.println("ob: " + (ob.getZcord()-ob.getZscale()));
-                //eye.z = tempEye.z;
+
+        if(eye.z < tempEye.z){
+            if(!(eye.z >= ob.getZcord()+ob.getZscale()/2)){
+                //if(checkMazeSouth(true)){
+                    eye.z = tempEye.z;
+                //}
             }
         }
         else if(eye.z > tempEye.z){
-            if(!(eye.z <= ob.getZcord()-ob.getZscale())){
-                System.out.println("eye.z < tempEye.z");
-                System.out.println("eye.z: " + eye.z);
-                System.out.println("TempEye.z: " + tempEye.z);
-                System.out.println("ob cord: " + (ob.getZcord()-ob.getZscale()));
-                //eye.z = tempEye.z;
-            }
-        }*/
-
-        /*if(eye.x > tempEye.x){
-            if(eye.x >= ob.getXcord()+ob.getXscale()){
-                System.out.println("eye.x > tempEye.x");
-                System.out.println("eye.x: " + eye.x);
-                System.out.println("TempEye.x: " + tempEye.x);
-                System.out.println("ob: " + ob.getXcord()+" scale: "+ob.getXscale());
+            if(!(eye.z <= ob.getZcord()+ob.getZscale()/2)){
+                //if(checkMazeSouth(false)){
+                    eye.z = tempEye.z;
+                //}
             }
         }
-        if(eye.x < tempEye.x){
-            if(eye.x <= ob.getXcord()+ob.getXscale()){
-                System.out.println("eye.x < tempEye.x");
-                System.out.println("eye.x: " + eye.x);
-                System.out.println("TempEye.x: " + tempEye.x);
-                System.out.println("ob: " + ob.getXcord()+" scale: "+ob.getXscale());
+
+        if(eye.x > tempEye.x){
+            if(eye.x >= ob.getXcord()+ob.getXscale()/2){
+                //if(checkMazeWest(true)){
+                    eye.x = tempEye.x;
+                //}
             }
-        }*/
+        }
+        else if(eye.x < tempEye.x){
+            if(eye.x <= ob.getXcord()+ob.getXscale()/2){
+                //if(checkMazeWest(false)){
+                    eye.x = tempEye.x;
+                //}
+            }
+        }
+    }
+
+    boolean checkMazeSouth(boolean up){
+        int x = (int)eye.x;
+        int z = (int)eye.z;
+        System.out.println("x: " + x + " z: " + z);
+
+        Cell[][] cells = LabFirst3DGame.getCells();
+
+        if(!up){
+            if(cells[x][z].southWall){
+                return false;
+            }
+        }
+        else if(z<10){
+            if(cells[x][z+1].southWall){
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    boolean checkMazeWest(boolean right){
+        int x = (int)eye.x;
+        int z = (int)eye.z;
+
+        Cell[][] cells = LabFirst3DGame.getCells();
+
+        if(!right){
+            if(cells[x][z].westWall){
+                return false;
+            }
+        }
+        else if(x<10){
+            if(cells[x+1][z].westWall){
+                return false;
+            }
+        }
+        return true;
     }
 
     public void roll(float angle)
