@@ -13,9 +13,10 @@ public class DesktopLauncher {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
 		config.title = "MAZE OF DOOM"; // or whatever you like
-		config.width = (int)screenSize.getWidth();  //experiment with
-		config.height = (int)screenSize.getHeight();  //the window size
-
+		//config.width = (int)screenSize.getWidth();  //experiment with
+		//config.height = (int)screenSize.getHeight();  //the window size
+		config.width = 400;
+		config.height = 400;
 
 		//config.fullscreen = true;
 

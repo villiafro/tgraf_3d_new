@@ -1,9 +1,13 @@
 package com.ru.tgra.shapes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.BufferUtils;
+import com.ru.tgra.shapes.LabFirst3DGame;
 
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+
 
 /**
  * Created by VilhjalmurAlex on 06/10/2016.
@@ -37,9 +41,57 @@ public class Camera {
     }
 
     public void slide(float delU, float delV, float delN){
-        eye.x += delU*u.x + delV*v.x + delN*n.x;
+
+        ArrayList<Obstacle> obstacles = LabFirst3DGame.getObstacles();
+
+        Point3D nextEye = new Point3D();
+        nextEye.set(eye.x+delU*u.x + delV*v.x + delN*n.x, eye.y, eye.z+delU*u.z + delV*v.z + delN*n.z);
+
+        for(int i = 0; i < obstacles.size(); i++){
+            System.out.println("i is: " + i);
+            checkWall(obstacles.get(i), nextEye);
+        }
+        eye.x = nextEye.x;
         eye.y += delU*u.y + delV*v.y + delN*n.y;
-        eye.z += delU*u.z + delV*v.z + delN*n.z;
+        eye.z = nextEye.z;
+    }
+
+    void checkWall(Obstacle ob, Point3D tempEye){
+        if(eye.z < tempEye.z){
+            if(!(eye.z >= ob.getZcord()-ob.getZscale())){
+                System.out.println("eye.z > tempEye.z");
+                System.out.println("eye.z: " + eye.z);
+                System.out.println("TempEye.z: " + tempEye.z);
+                System.out.println("ob: " + (ob.getZcord()-ob.getZscale()));
+                //eye.z = tempEye.z;
+            }
+        }
+        else if(eye.z > tempEye.z){
+            if(!(eye.z <= ob.getZcord()-ob.getZscale())){
+                System.out.println("eye.z < tempEye.z");
+                System.out.println("eye.z: " + eye.z);
+                System.out.println("TempEye.z: " + tempEye.z);
+                System.out.println("ob cord: " + (ob.getZcord()-ob.getZscale()));
+                //eye.z = tempEye.z;
+            }
+        }
+
+        /*if(eye.x > tempEye.x){
+            if(eye.x >= ob.getXcord()+ob.getXscale()){
+                System.out.println("eye.x > tempEye.x");
+                System.out.println("eye.x: " + eye.x);
+                System.out.println("TempEye.x: " + tempEye.x);
+                System.out.println("ob: " + ob.getXcord()+" scale: "+ob.getXscale());
+            }
+        }
+        if(eye.x < tempEye.x){
+            if(eye.x <= ob.getXcord()+ob.getXscale()){
+                System.out.println("eye.x < tempEye.x");
+                System.out.println("eye.x: " + eye.x);
+                System.out.println("TempEye.x: " + tempEye.x);
+                System.out.println("ob: " + ob.getXcord()+" scale: "+ob.getXscale());
+            }
+        }*/
     }
 
     public void roll(float angle)
