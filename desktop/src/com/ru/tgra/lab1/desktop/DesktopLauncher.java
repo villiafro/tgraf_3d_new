@@ -15,8 +15,8 @@ public class DesktopLauncher {
 		config.title = "MAZE OF DOOM"; // or whatever you like
 		//config.width = (int)screenSize.getWidth();  //experiment with
 		//config.height = (int)screenSize.getHeight();  //the window size
-		config.width = 400;
-		config.height = 400;
+		config.width = 800;
+		config.height = 600;
 
 		//config.fullscreen = true;
 

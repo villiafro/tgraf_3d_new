@@ -37,7 +37,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	float angle;
 
 	Random rand;
-	int[] arr;
+	boolean[] arr;
 
 	private static ArrayList<Obstacle> obstacles;
 
@@ -122,17 +122,22 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//Look3D(new Point3D(1.5f, 1.2f, 2.0f), new Point3D(0,0,0), new Vector3D(0,1,0));
 
 		cam = new Camera(viewMatrixLoc);
-		cam.look(new Point3D(4,0,2),new Point3D(4,0,0),new Vector3D(0,1,0));
+		cam.look(new Point3D(1,1,1),new Point3D(10,3,10),new Vector3D(0,10,0));
 
 		rand = new Random();
-		arr = new int[1000];
+		arr = new boolean[1000];
 		for(int i = 0; i < 1000; i++){
-			arr[i] = rand.nextInt(50);
+			arr[i] = rand.nextBoolean();
 		}
 
 		obstacles = new ArrayList<Obstacle>();
 
         cells = new Cell[10][10];
+        for(int i = 0; i < 10; i++){
+            for(int j = 0; j < 10; j++){
+                cells[i][j] = new Cell();
+            }
+        }
 
 	}
 
@@ -204,7 +209,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 		ModelMatrix.main.loadIdentityMatrix();
 
-		int maxLevel = 0;
+		int maxLevel = 10;
 
 		drawWorld();
 
@@ -213,52 +218,36 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
         ModelMatrix.main.pushMatrix();
         for(int i = 0; i < maxLevel; i++)
         {
-            ModelMatrix.main.addTranslation(16.5f, 0f, 0f);
-            ModelMatrix.main.pushMatrix();
             for(int j = 0; j < maxLevel; j++)
             {
-                ModelMatrix.main.addTranslation(0f, 0f, -16.5f);
-                ModelMatrix.main.pushMatrix();
-                if(arr[randomizer] % 2 == 0){
-                    randomizer++;
-                    if(arr[randomizer] % 2 == 0){
-                        ModelMatrix.main.addScale(3f, 30, 30f);
-                        obstacles.add(new Obstacle(16.5f, 0, -16.5f,3,30,30));
-                    }
-                    else{
-                        ModelMatrix.main.addScale(3f, 30, 9f);
-                        obstacles.add(new Obstacle(16.5f, 0, -16.5f,3,30,9));
-                    }
-                    randomizer++;
+
+                if(arr[randomizer++]){
+                    cells[i][j].westWall = true;
+                    ModelMatrix.main.pushMatrix();
+                    ModelMatrix.main.addTranslation((float)i + 0.5f,0.5f,(float)j + 0.0f);
+                    ModelMatrix.main.addScale(1f,1f,0.2f);
+                    ModelMatrix.main.setShaderMatrix();
+                    BoxGraphic.drawSolidCube();
+                    ModelMatrix.main.popMatrix();
                 }
-                else{
-                    randomizer++;
-                    if(arr[randomizer] % 2 == 0){
-                        ModelMatrix.main.addScale(30f, 30, 3f);
-                        obstacles.add(new Obstacle(16.5f, 0, -16.5f,30,30,3));
-                    }
-                    else{
-                        ModelMatrix.main.addScale(9f, 30, 3f);
-                        obstacles.add(new Obstacle(16.5f, 0, -16.5f,9,30,3));
-                    }
-                    randomizer++;
+                if(arr[randomizer++]){
+                    cells[i][j].southWall = true;
+                    ModelMatrix.main.pushMatrix();
+                    ModelMatrix.main.addTranslation((float)j + 0.0f,0.5f,(float)i + 0.5f);
+                    ModelMatrix.main.addScale(0.2f,1f,1f);
+                    ModelMatrix.main.setShaderMatrix();
+                    BoxGraphic.drawSolidCube();
+                    ModelMatrix.main.popMatrix();
                 }
-                ModelMatrix.main.setShaderMatrix();
-                //SphereGraphic.drawSolidSphere();
-                BoxGraphic.drawSolidCube();
-                ModelMatrix.main.popMatrix();
             }
-            ModelMatrix.main.popMatrix();
         }
         ModelMatrix.main.popMatrix();
-
 
 		//ModelMatrix.main.addScale(1.0f, 1.0f, 1.0f);
 		//BoxGraphic.drawSolidCube();
 		//BoxGraphic.drawOutlineCube();
 		//SphereGraphic.drawSolidSphere();
 		//SphereGraphic.drawOutlineSphere();
-
 	}
 
 	@Override
@@ -284,14 +273,17 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	}
 	public void drawWorld(){
 		//BOTTOM
-		drawInitialWall(5f, 0f, 5f,5, 0.2f, 5);
+		drawInitialWall(5f, 0f, 5f,10, 0.2f, 10);
 		//FRONT
-		//drawInitialWall(1.5f, 2f, -82.5f,3f, 30, 11*15);
+		drawInitialWall(0f, 0.5f, 5f,0.2f, 1, 10);
 		//BACK
+        drawInitialWall(10f, 0.5f, 5f,0.2f, 1, 10);
 		//drawInitialWall(163.5f, 2f, -82.5f,3f, 30, 11*15);
 		//LEFT
+        drawInitialWall(5f, 0.5f, 0f,10, 1, 0.2f);
 		//drawInitialWall(82.5f, 2f, -163.5f,11*15, 30, 3f);
 		//RIGHT
+        drawInitialWall(5f, 0.5f, 10f,10, 1, 0.2f);
 		//drawInitialWall(82.5f, 2f, -1.5f,11*15, 30, 3f);
 	}
 

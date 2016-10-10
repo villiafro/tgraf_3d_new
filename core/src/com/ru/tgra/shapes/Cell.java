@@ -7,8 +7,8 @@ public class Cell {
     boolean southWall;
     boolean westWall;
 
-    public Cell(boolean south, boolean west){
-        southWall = south;
-        westWall = west;
+    public Cell(){
+        southWall = false;
+        westWall = false;
     }
 }

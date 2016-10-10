@@ -48,7 +48,7 @@ public class Camera {
         nextEye.set(eye.x+delU*u.x + delV*v.x + delN*n.x, eye.y, eye.z+delU*u.z + delV*v.z + delN*n.z);
 
         for(int i = 0; i < obstacles.size(); i++){
-            System.out.println("i is: " + i);
+            //System.out.println("i is: " + i);
             checkWall(obstacles.get(i), nextEye);
         }
         eye.x = nextEye.x;
@@ -57,7 +57,7 @@ public class Camera {
     }
 
     void checkWall(Obstacle ob, Point3D tempEye){
-        if(eye.z < tempEye.z){
+        /*if(eye.z < tempEye.z){
             if(!(eye.z >= ob.getZcord()-ob.getZscale())){
                 System.out.println("eye.z > tempEye.z");
                 System.out.println("eye.z: " + eye.z);
@@ -74,7 +74,7 @@ public class Camera {
                 System.out.println("ob cord: " + (ob.getZcord()-ob.getZscale()));
                 //eye.z = tempEye.z;
             }
-        }
+        }*/
 
         /*if(eye.x > tempEye.x){
             if(eye.x >= ob.getXcord()+ob.getXscale()){
