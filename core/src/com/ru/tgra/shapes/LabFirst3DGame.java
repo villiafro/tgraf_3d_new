@@ -117,12 +117,13 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//Look3D(new Point3D(1.5f, 1.2f, 2.0f), new Point3D(0,0,0), new Vector3D(0,1,0));
 
 		cam = new Camera(viewMatrixLoc);
-		cam.look(new Point3D(1f,1f,1f),new Point3D(0,3,0),new Vector3D(0,1,0));
+
+		cam.look(new Point3D(10f,7f,-10f),new Point3D(100,3,-100),new Vector3D(0,10,0));
 
 		rand = new Random();
-		arr = new int[100];
-		for(int i = 0; i < 100; i++){
-			arr[i] = rand.nextInt(10);
+		arr = new int[1000];
+		for(int i = 0; i < 1000; i++){
+			arr[i] = rand.nextInt(50);
 		}
 	}
 
@@ -210,16 +211,29 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 					ModelMatrix.main.addTranslation(0f, 0f, -1.1f);
 					ModelMatrix.main.pushMatrix();
 					if(arr[randomizer] % 2 == 0){
-						ModelMatrix.main.addScale(0.2f, 1, 1.2f);
+						randomizer++;
+						if(arr[randomizer] % 2 == 0){
+							ModelMatrix.main.addScale(0.2f, 1, 2f);
+						}
+						else{
+							ModelMatrix.main.addScale(0.2f, 1, 0.6f);
+						}
+						randomizer++;
 					}
 					else{
-						ModelMatrix.main.addScale(1.2f, 1, 0.2f);
+						randomizer++;
+						if(arr[randomizer] % 2 == 0){
+							ModelMatrix.main.addScale(2f, 1, 0.2f);
+						}
+						else{
+							ModelMatrix.main.addScale(0.6f, 1, 0.2f);
+						}
+						randomizer++;
 					}
 					ModelMatrix.main.setShaderMatrix();
 					//SphereGraphic.drawSolidSphere();
 					BoxGraphic.drawSolidCube();
 					ModelMatrix.main.popMatrix();
-					randomizer++;
 				}
 				ModelMatrix.main.popMatrix();
 			}

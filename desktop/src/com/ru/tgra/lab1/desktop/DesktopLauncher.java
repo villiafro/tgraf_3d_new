@@ -4,15 +4,20 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.ru.tgra.shapes.LabFirst3DGame;
 
+import java.awt.*;
+
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		config.title = "Lab1"; // or whatever you like
-		config.width = 748;  //experiment with
-		config.height = 748;  //the window size
-		config.x = 150;
-		config.y = 50;
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+		config.title = "MAZE OF DOOM"; // or whatever you like
+		config.width = (int)screenSize.getWidth();  //experiment with
+		config.height = (int)screenSize.getHeight();  //the window size
+
+
+		//config.fullscreen = true;
 
 		new LwjglApplication(new LabFirst3DGame(), config);
 	}
