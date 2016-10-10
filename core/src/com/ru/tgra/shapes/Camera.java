@@ -1,6 +1,7 @@
 package com.ru.tgra.shapes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.BufferUtils;
 import com.ru.tgra.shapes.LabFirst3DGame;
@@ -17,6 +18,7 @@ public class Camera {
     Vector3D u;
     Vector3D v;
     Vector3D n;
+    float offset;
 
     private int viewMatrixPointer;
     private FloatBuffer matrixBuffer;
@@ -29,6 +31,8 @@ public class Camera {
         u = new Vector3D(1,0,0);
         v = new Vector3D(0,1,0);
         n = new Vector3D(0,0,1);
+
+        offset = 0.5f;
     }
 
     public void look(Point3D eye, Point3D center, Vector3D up){
@@ -51,21 +55,21 @@ public class Camera {
             checkWall(obstacles.get(i), nextEye);
         }
         //eye.x = nextEye.x;
-        //eye.y += delU*u.y + delV*v.y + delN*n.y;
+        eye.y += delU*u.y + delV*v.y + delN*n.y;
         //eye.z = nextEye.z;
     }
 
     void checkWall(Obstacle ob, Point3D tempEye){
 
         if(eye.z < tempEye.z){
-            if(!(eye.z >= ob.getZcord()+ob.getZscale()/2)){
+            if(!(eye.z+offset/2 >= ob.getZcord()-ob.getZscale())){
                 //if(checkMazeSouth(true)){
                     eye.z = tempEye.z;
                 //}
             }
         }
         else if(eye.z > tempEye.z){
-            if(!(eye.z <= ob.getZcord()+ob.getZscale()/2)){
+            if(!(eye.z-offset/2 <= ob.getZcord()+ob.getZscale())){
                 //if(checkMazeSouth(false)){
                     eye.z = tempEye.z;
                 //}
@@ -73,14 +77,14 @@ public class Camera {
         }
 
         if(eye.x > tempEye.x){
-            if(eye.x >= ob.getXcord()+ob.getXscale()/2){
+            if(eye.x-offset/2 >= ob.getXcord()+ob.getXscale()){
                 //if(checkMazeWest(true)){
                     eye.x = tempEye.x;
                 //}
             }
         }
         else if(eye.x < tempEye.x){
-            if(eye.x <= ob.getXcord()+ob.getXscale()/2){
+            if(eye.x+offset/2 <= ob.getXcord()-ob.getXscale()){
                 //if(checkMazeWest(false)){
                     eye.x = tempEye.x;
                 //}

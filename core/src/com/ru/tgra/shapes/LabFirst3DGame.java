@@ -122,7 +122,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//Look3D(new Point3D(1.5f, 1.2f, 2.0f), new Point3D(0,0,0), new Vector3D(0,1,0));
 
 		cam = new Camera(viewMatrixLoc);
-		cam.look(new Point3D(1f,1f,1f),new Point3D(5,1.5f,5),new Vector3D(0,5,0));
+		cam.look(new Point3D(0.5f,0.5f,0.5f),new Point3D(5,1.5f,5),new Vector3D(0,5,0));
 
 		rand = new Random();
 		arr = new boolean[200];
@@ -280,6 +280,15 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		ModelMatrix.main.popMatrix();
 	}
 	public void drawWorld(){
+        Gdx.gl.glUniform4f(colorLoc, 0.2f, 0.7f, 0.2f, 1.0f);
+        ModelMatrix.main.pushMatrix();
+        ModelMatrix.main.addTranslation(cam.eye.x, 0.5f, cam.eye.z);
+        ModelMatrix.main.addScale(0.5f, 0.5f, 0.5f);
+        ModelMatrix.main.setShaderMatrix();
+        BoxGraphic.drawSolidCube();
+        ModelMatrix.main.popMatrix();
+        Gdx.gl.glUniform4f(colorLoc, 0.5f, 0.3f, 1.0f, 1.0f);
+
 		//BOTTOM
 		drawInitialWall(5f, 0f, 5f,10, 0.2f, 10);
 		//FRONT
