@@ -2,6 +2,8 @@ package com.ru.tgra.shapes;
 
 import com.badlogic.gdx.Gdx;
 
+import java.util.Random;
+
 /**
  * Created by kristinngudmundsson on 11/10/16.
  */
@@ -10,9 +12,16 @@ import com.badlogic.gdx.Gdx;
 public class MovingSphere {
 
     private int colorLoc;
-    private float height;
+    private float radius;
     private float deltaTime;
+    private float x;
+    private float height;
+    private float z;
     private Direction direction;
+
+    private float red;
+    private float green;
+    private float blue;
 
 
     private enum Direction{
@@ -20,19 +29,24 @@ public class MovingSphere {
         DOWN;
     }
 
-    public MovingSphere(int colorLoc){
+    public MovingSphere(float posX, float posZ, int colorLoc){
+        x = posX;
+        //x = 0.5f;
         height = 0.6f;
+        z = posZ;
+        //z = 1.5f;
+        radius = 0.075f;
         this.colorLoc = colorLoc;
         direction = Direction.DOWN;
-
+        this.randomizeSphereColor();
     }
 
     public void drawSphere(){
         this.updateHeight();
         ModelMatrix.main.pushMatrix();
-        Gdx.gl.glUniform4f(colorLoc, 0.2f, 0.7f, 0.2f, 1.0f);
-        ModelMatrix.main.addTranslation(0.5f,height,1.5f);
-        ModelMatrix.main.addScale(0.15f,0.15f,0.15f);
+        Gdx.gl.glUniform4f(colorLoc, red, green, blue, 1.0f);
+        ModelMatrix.main.addTranslation(this.x,this.height,this.z);
+        ModelMatrix.main.addScale(this.radius*2,this.radius*2,this.radius*2);
         ModelMatrix.main.setShaderMatrix();
         SphereGraphic.drawSolidSphere();
         ModelMatrix.main.popMatrix();
@@ -63,4 +77,24 @@ public class MovingSphere {
         }
     }
 
+    public void randomizeSphereColor(){
+        float minX = 0.0f;
+        float maxX = 1.0f;
+        Random rand = new Random();
+        red = rand.nextFloat() * (maxX - minX) + minX;
+        green= rand.nextFloat() * (maxX - minX) + minX;
+        blue = rand.nextFloat() * (maxX - minX) + minX;
+    }
+
+    public float getRadius() {
+        return radius;
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getZ() {
+        return z;
+    }
 }

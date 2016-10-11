@@ -139,7 +139,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		Maze maze = new Maze();
 		cells = maze.getCells();
 
-        movingSphere = new MovingSphere(colorLoc);
+        movingSphere = new MovingSphere(0.5f,1.5f,colorLoc);
+		cam.addMovingSphere(movingSphere);
 
 	}
 
