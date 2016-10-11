@@ -66,7 +66,7 @@ public class Camera {
             checkWall(obstacles.get(i), nextEye);
         }
         //eye.x = nextEye.x;
-        eye.y += delU*u.y + delV*v.y + delN*n.y;
+        //eye.y += delU*u.y + delV*v.y + delN*n.y;
         //eye.z = nextEye.z;
     }
 
