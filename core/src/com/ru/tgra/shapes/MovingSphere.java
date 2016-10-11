@@ -9,7 +9,7 @@ import com.badlogic.gdx.Gdx;
 
 public class MovingSphere {
 
-    private int colorLoc;
+    private Shader shader;
     private float height;
     private float deltaTime;
     private Direction direction;
@@ -20,9 +20,9 @@ public class MovingSphere {
         DOWN;
     }
 
-    public MovingSphere(int colorLoc){
+    public MovingSphere(Shader shader){
         height = 0.6f;
-        this.colorLoc = colorLoc;
+        this.shader = shader;
         direction = Direction.DOWN;
 
     }
@@ -30,7 +30,8 @@ public class MovingSphere {
     public void drawSphere(){
         this.updateHeight();
         ModelMatrix.main.pushMatrix();
-        Gdx.gl.glUniform4f(colorLoc, 0.2f, 0.7f, 0.2f, 1.0f);
+        //Gdx.gl.glUniform4f(colorLoc, 0.2f, 0.7f, 0.2f, 1.0f);
+        shader.setMaterialDiffuse(0.2f, 0.7f, 0.2f, 1.0f);
         ModelMatrix.main.addTranslation(0.5f,height,1.5f);
         ModelMatrix.main.addScale(0.15f,0.15f,0.15f);
         ModelMatrix.main.setShaderMatrix();

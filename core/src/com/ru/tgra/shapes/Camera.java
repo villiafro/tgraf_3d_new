@@ -56,7 +56,7 @@ public class Camera {
     }
 
     public void slide(float delU, float delV, float delN){
-        System.out.println("eye x: " + eye.x + " eye z: " + eye.z);
+        //System.out.println("eye x: " + eye.x + " eye z: " + eye.z);
         ArrayList<Obstacle> obstacles = LabFirst3DGame.getObstacles();
 
         Point3D nextEye = new Point3D();
@@ -105,7 +105,7 @@ public class Camera {
     boolean checkMazeSouth(boolean up, Point3D tempEye){
         int x = (int)eye.x;
         int z = (int)eye.z;
-        System.out.println("x: " + x + " z: " + z);
+        //System.out.println("x: " + x + " z: " + z);
 
         Cell[][] cells = LabFirst3DGame.getCells();
 
@@ -131,7 +131,7 @@ public class Camera {
     boolean checkMazeWest(boolean right, Point3D tempEye){
         int x = (int)eye.x;
         int z = (int)eye.z;
-        System.out.println("x: " + x + " z: " + z);
+        //System.out.println("x: " + x + " z: " + z);
 
         Cell[][] cells = LabFirst3DGame.getCells();
 
