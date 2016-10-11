@@ -25,7 +25,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 	private static ArrayList<Obstacle> obstacles;
 
-	private MovingSphere movingSphere;
+	//private MovingSphere movingSphere;
 
     private static Cell[][] cells;
 
@@ -88,8 +88,20 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		Maze maze = new Maze();
 		cells = maze.getCells();
 
-        movingSphere = new MovingSphere(0.5f,1.5f,shader);
+        MovingSphere movingSphere = new MovingSphere(0.5f,1.5f,shader);
 		cam.addMovingSphere(movingSphere);
+
+		movingSphere = new MovingSphere(5.5f,5.5f,shader);
+		cam.addMovingSphere(movingSphere);
+
+		movingSphere = new MovingSphere(9.5f,4.5f,shader);
+		cam.addMovingSphere(movingSphere);
+
+
+
+
+
+
 
 
 	}
@@ -181,7 +193,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		int maxLevel = 10;
 
 		drawWorld();
-		movingSphere.drawSphere();
 
 		int randomizer = 0;
 
@@ -231,6 +242,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//BoxGraphic.drawOutlineCube();
 		//SphereGraphic.drawSolidSphere();
 		//SphereGraphic.drawOutlineSphere();
+
+		for (MovingSphere sphere: cam.getMovingSpheres()) {
+			sphere.drawSphere();
+		}
 	}
 
 	@Override

@@ -273,4 +273,8 @@ public class Camera {
     public void addMovingSphere(MovingSphere movingSphere){
         movingSpheres.add(movingSphere);
     }
+
+    public static ArrayList<MovingSphere> getMovingSpheres() {
+        return movingSpheres;
+    }
 }
