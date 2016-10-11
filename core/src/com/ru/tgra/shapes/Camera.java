@@ -1,12 +1,7 @@
 package com.ru.tgra.shapes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.BufferUtils;
-import com.ru.tgra.shapes.LabFirst3DGame;
-
-import java.awt.*;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
@@ -43,7 +38,6 @@ public class Camera {
         u = new Vector3D(1,0,0);
         v = new Vector3D(0,1,0);
         n = new Vector3D(0,0,1);
-
         offset = 0.1f;
 
         movingSpheres = new ArrayList<MovingSphere>();
@@ -59,7 +53,6 @@ public class Camera {
     }
 
     public void slide(float delU, float delV, float delN){
-        //System.out.println("eye x: " + eye.x + " eye z: " + eye.z);
         ArrayList<Obstacle> obstacles = LabFirst3DGame.getObstacles();
 
         Point3D nextEye = new Point3D();
@@ -77,25 +70,15 @@ public class Camera {
     }
     void checkSphereCollision(MovingSphere movingSphere){
         float currDistanceFromSphere = (((movingSphere.getX()-eye.x)*(movingSphere.getX()-eye.x))+((movingSphere.getZ()-eye.z)*(movingSphere.getZ()-eye.z)));
-        System.out.println("the distance from sphere is: " + currDistanceFromSphere);
-        System.out.println("Value sphere x is: " + movingSphere.getX());
-        System.out.println("Value eye x is:" + eye.x);
-        System.out.println("Value sphere y is: " + movingSphere.getZ());
-        System.out.println("Value eye z is: "+  eye.z);
         if(currDistanceFromSphere <= movingSphere.getRadius()-0.045){//fine tuned value... >.>
-            System.out.println("I think we are inside of the sphere");
             teleportCamera();
             for (MovingSphere sphere:movingSpheres) {
                 sphere.randomizeSphereColor();
             }
-            //movingSphere.randomizeSphereColor();
         }
     }
-    //yolo when we hit the sphere
+    //when we hit the sphere
     void teleportCamera(){
-        //this.eye.z = 0.5f;
-        //this.eye.x = 0.5f;
-
         this.look(new Point3D(0.5f,0.5f,0.5f),new Point3D(5,1.5f,5),new Vector3D(0,5,0));
     }
 
@@ -134,7 +117,6 @@ public class Camera {
     boolean checkMazeSouth(boolean up, Point3D tempEye){
         int x = (int)eye.x;
         int z = (int)eye.z;
-        //System.out.println("x: " + x + " z: " + z);
 
         Cell[][] cells = LabFirst3DGame.getCells();
 
@@ -148,7 +130,6 @@ public class Camera {
         else if(x<9){
             if(cells[x+1][z].southWall){
                 if(tempEye.x+offset/2 >= (x+1  - 0.1)){
-                    //System.out.println("where we are: " + (tempEye.x+offset/2) + "where we cant be: " + (x+1  - 0.1));
                     return false;
                 }
             }
@@ -160,7 +141,6 @@ public class Camera {
     boolean checkMazeWest(boolean right, Point3D tempEye){
         int x = (int)eye.x;
         int z = (int)eye.z;
-        //System.out.println("x: " + x + " z: " + z);
 
         Cell[][] cells = LabFirst3DGame.getCells();
 

@@ -21,18 +21,6 @@ public class Maze {
     }
 
     public void fillMaze(){
-        /*
-         cells[0][1].setCell(false,false);
-         cells[1][1].setCell(false,false);
-         cells[2][1].setCell(false,false);
-         cells[3][1].setCell(false,false);
-         cells[4][1].setCell(false,false);
-         cells[5][1].setCell(false,false);
-         cells[6][1].setCell(false,false);
-         cells[7][1].setCell(false,false);
-         cells[8][1].setCell(false,false);
-         cells[9][1].setCell(false,false);
-         */
 
         cells[0][0].setCell(false,false);
         cells[1][0].setCell(false,false);

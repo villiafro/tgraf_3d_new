@@ -64,8 +64,6 @@ public class SphereGraphic {
 		{
 			Gdx.gl.glDrawArrays(GL20.GL_TRIANGLE_STRIP, i, (slices+1)*2);
 		}
-
-
 	}
 
 	public static void drawOutlineSphere() {
@@ -78,5 +76,4 @@ public class SphereGraphic {
 			Gdx.gl.glDrawArrays(GL20.GL_LINE_STRIP, i, (slices+1)*2);
 		}
 	}
-
 }

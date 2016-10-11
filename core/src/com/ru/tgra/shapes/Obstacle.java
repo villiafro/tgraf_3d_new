@@ -1,8 +1,5 @@
 package com.ru.tgra.shapes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by VilhjalmurAlex on 09/10/2016.
  */

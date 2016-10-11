@@ -27,11 +27,8 @@ public class CoordFrameGraphic {
 	}
 
 	public static void drawPlot() {
-
 		Gdx.gl.glVertexAttribPointer(vertexPointer, 2, GL20.GL_FLOAT, false, 0, vertexBuffer);
-
 		Gdx.gl.glDrawArrays(GL20.GL_LINES, 0, 12);
-
 	}
 
 }

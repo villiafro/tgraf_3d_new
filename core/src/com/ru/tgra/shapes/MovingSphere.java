@@ -1,7 +1,6 @@
 package com.ru.tgra.shapes;
 
 import com.badlogic.gdx.Gdx;
-
 import java.util.Random;
 
 /**
@@ -28,16 +27,14 @@ public class MovingSphere {
 
     private enum Direction{
         UP,
-        DOWN;
+        DOWN
     }
 
 
     public MovingSphere(float posX, float posZ, Shader shader){
         x = posX;
-        //x = 0.5f;
         height = 0.6f;
         z = posZ;
-        //z = 1.5f;
         radius = 0.075f;
 
         this.shader = shader;
@@ -60,11 +57,9 @@ public class MovingSphere {
 
     private void updateHeight(){
         deltaTime = Gdx.graphics.getDeltaTime()*0.5f;
-        //System.out.println("height is: " + height + " and deltatime is: " + deltaTime);
         if(direction == Direction.DOWN){
             if(height - deltaTime <= 0.2){
                 direction = Direction.UP;
-                //System.out.println("height is: " + height);
                 height += deltaTime;
             }
             else{
@@ -74,7 +69,6 @@ public class MovingSphere {
         else if(direction == Direction.UP){
             if(height + deltaTime >= 0.6){
                 direction = Direction.DOWN;
-                //System.out.println("height is: " + height);
                 height -= deltaTime;
             }
             else{

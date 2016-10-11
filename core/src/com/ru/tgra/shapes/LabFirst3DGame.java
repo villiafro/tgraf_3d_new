@@ -12,8 +12,6 @@ import java.util.Random;
 
 public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor {
 
-	//private FloatBuffer matrixBuffer;
-
 	Shader shader;
 
 	float deltaTime;
@@ -24,11 +22,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	boolean[] arr;
 
 	private static ArrayList<Obstacle> obstacles;
-
-	//private MovingSphere movingSphere;
-
     private static Cell[][] cells;
-
 
 	@Override
 	public void create () {
@@ -36,24 +30,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		shader = new Shader();
 		
 		Gdx.input.setInputProcessor(this);
-
-		//OrthographicProjection3D(0, Gdx.graphics.getWidth(), 0, Gdx.graphics.getHeight(), -1, 1);
-/*
-		float[] mm = new float[16];
-
-		mm[0] = 1.0f; mm[4] = 0.0f; mm[8] = 0.0f; mm[12] = 0.0f;
-		mm[1] = 0.0f; mm[5] = 1.0f; mm[9] = 0.0f; mm[13] = 0.0f;
-		mm[2] = 0.0f; mm[6] = 0.0f; mm[10] = 1.0f; mm[14] = 0.0f;
-		mm[3] = 0.0f; mm[7] = 0.0f; mm[11] = 0.0f; mm[15] = 1.0f;
-
-		modelMatrixBuffer = BufferUtils.newFloatBuffer(16);
-		modelMatrixBuffer.put(mm);
-		modelMatrixBuffer.rewind();
-
-		Gdx.gl.glUniformMatrix4fv(modelMatrixLoc, 1, false, modelMatrixBuffer);
-*/
-		//COLOR IS SET HERE
-		//shader.setColorLoc(0.7f, 0.2f, 0, 1);
 
 		BoxGraphic.create(shader.getPositionLoc(), shader.getNormalLoc());
 		SphereGraphic.create(shader.getPositionLoc(), shader.getNormalLoc());
@@ -67,11 +43,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		ModelMatrix.main.setShaderMatrix(shader.getModelMatrixLoc());
 
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
-
-		//OrthographicProjection3D(-2, 2, -2, 2, 1, 100);
-		//PerspctiveProjection3D();
-		//Look3D(new Point3D(1.5f, 1.2f, 2.0f), new Point3D(0,0,0), new Vector3D(0,1,0));
-
 
 		cam = new Camera(shader.getViewMatrixLoc(), shader.getProjectionMatrixLoc());
 		cam.perspectiveProjection(100,1,0.01f,90);
@@ -97,13 +68,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		movingSphere = new MovingSphere(9.5f,4.5f,shader);
 		cam.addMovingSphere(movingSphere);
 
-
-
-
-
-
-
-
 	}
 
 	public static ArrayList<Obstacle> getObstacles() {
@@ -113,7 +77,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	public static Cell[][] getCells(){
         return cells;
     }
-
 
 	private void input()
 	{
@@ -161,7 +124,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private void update()
 	{
 		deltaTime = Gdx.graphics.getDeltaTime();
-		//System.out.println("delta time in update is: " + deltaTime);
 		angle += 180.0f * deltaTime;
 
 		//do all updates to the game
@@ -173,16 +135,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//do all actual drawing and rendering here
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
 
-		//shader.setColorLoc(0.5f, 0.3f, 1.0f, 1.0f);
-		//Gdx.gl.glUniform4f(colorLoc, 0.5f, 0.3f, 1.0f, 1.0f);
 		//float s = (float)Math.sin(angle*Math.PI/180.0);
 		//float c = (float)Math.cos(angle*Math.PI/180.0);
 
 		shader.setLightPosition(cam.eye.x,1,cam.eye.z,1);
-
-		//s = Math.abs((float)Math.sin((angle/2)*Math.PI/180.0));
-		//c = Math.abs((float)Math.cos((angle*2)*Math.PI/180.0));
-
 		shader.setLightDiffuse(1,1,1,1);
 		shader.setEyePositionLoc(cam.eye.x, cam.eye.y, cam.eye.z,1);
 
@@ -191,19 +147,13 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		ModelMatrix.main.loadIdentityMatrix();
 
 		int maxLevel = 10;
-
 		drawWorld();
-
-		int randomizer = 0;
 
         ModelMatrix.main.pushMatrix();
         for(int i = 0; i < maxLevel; i++)
         {
             for(int j = 0; j < maxLevel; j++)
             {
-                /*if(i > 0 && cells[i-1][j].westWall){
-
-                }*/
                 if(cells[i][j].westWall){
                     //cells[i][j].westWall = true;
                     ModelMatrix.main.pushMatrix();
@@ -218,9 +168,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
                     BoxGraphic.drawSolidCube();
                     ModelMatrix.main.popMatrix();
                 }
-                /*if(j > 0 && cells[i][j-1].southWall){
 
-                }*/
                 if(cells[i][j].southWall){
                     //cells[i][j].southWall = true;
                     ModelMatrix.main.pushMatrix();
@@ -271,7 +219,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		ModelMatrix.main.popMatrix();
 	}
 	public void drawWorld(){
-		//BOX impersonating the camera in the right place
+		//BOX impersonating the camera in the same place
 
         /*Gdx.gl.glUniform4f(colorLoc, 0.2f, 0.7f, 0.2f, 1.0f);
         ModelMatrix.main.pushMatrix();
@@ -283,7 +231,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
         Gdx.gl.glUniform4f(colorLoc, 0.5f, 0.3f, 1.0f, 1.0f);*/
 
 		//BOTTOM
-
 		drawInitialWall(5f, 0f, 5f,10, 0.2f, 10);
 		//FRONT
 		drawInitialWall(0f, 0.5f, 5f,0.2f, 1, 10);
@@ -294,68 +241,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//RIGHT
         drawInitialWall(5f, 0.5f, 10f,10, 1, 0.2f);
 	}
-
-	/*private void Look3D(Point3D eye, Point3D center, Vector3D up) {
-		
-		Vector3D n = Vector3D.difference(eye, center);
-		Vector3D u = up.cross(n);
-		n.normalize();
-		u.normalize();
-		Vector3D v = n.cross(u);
-
-		Vector3D minusEye = new Vector3D(-eye.x, -eye.y, -eye.z);
-		
-		float[] pm = new float[16];
-
-		pm[0] = u.x; pm[4] = u.y; pm[8] = u.z; pm[12] = minusEye.dot(u);
-		pm[1] = v.x; pm[5] = v.y; pm[9] = v.z; pm[13] = minusEye.dot(v);
-		pm[2] = n.x; pm[6] = n.y; pm[10] = n.z; pm[14] = minusEye.dot(n);
-		pm[3] = 0.0f; pm[7] = 0.0f; pm[11] = 0.0f; pm[15] = 1.0f;
-
-		matrixBuffer = BufferUtils.newFloatBuffer(16);
-		matrixBuffer.put(pm);
-		matrixBuffer.rewind();
-		Gdx.gl.glUniformMatrix4fv(viewMatrixLoc, 1, false, matrixBuffer);
-	}
-
-	private void OrthographicProjection3D(float left, float right, float bottom, float top, float near, float far) {
-		float[] pm = new float[16];
-
-		pm[0] = 2.0f / (right - left); pm[4] = 0.0f; pm[8] = 0.0f; pm[12] = -(right + left) / (right - left);
-		pm[1] = 0.0f; pm[5] = 2.0f / (top - bottom); pm[9] = 0.0f; pm[13] = -(top + bottom) / (top - bottom);
-		pm[2] = 0.0f; pm[6] = 0.0f; pm[10] = 2.0f / (near - far); pm[14] = (near + far) / (near - far);
-		pm[3] = 0.0f; pm[7] = 0.0f; pm[11] = 0.0f; pm[15] = 1.0f;
-
-		matrixBuffer = BufferUtils.newFloatBuffer(16);
-		matrixBuffer.put(pm);
-		matrixBuffer.rewind();
-		Gdx.gl.glUniformMatrix4fv(projectionMatrixLoc, 1, false, matrixBuffer);
-
-		pm[0] = 1.0f; pm[4] = 0.0f; pm[8] = 0.0f; pm[12] = 0.0f;
-		pm[1] = 0.0f; pm[5] = 1.0f; pm[9] = 0.0f; pm[13] = 0.0f;
-		pm[2] = 0.0f; pm[6] = 0.0f; pm[10] = 1.0f; pm[14] = 0.0f;
-		pm[3] = 0.0f; pm[7] = 0.0f; pm[11] = 0.0f; pm[15] = 1.0f;
-
-		matrixBuffer = BufferUtils.newFloatBuffer(16);
-		matrixBuffer.put(pm);
-		matrixBuffer.rewind();
-		Gdx.gl.glUniformMatrix4fv(viewMatrixLoc, 1, false, matrixBuffer);
-	}
-
-	private void PerspctiveProjection3D() {
-		float[] pm = new float[16];
-
-		pm[0] = 1.0f; pm[4] = 0.0f; pm[8] = 0.0f; pm[12] = 0.0f;
-		pm[1] = 0.0f; pm[5] = 1.0f; pm[9] = 0.0f; pm[13] = 0.0f;
-		pm[2] = 0.0f; pm[6] = 0.0f; pm[10] = -1.02f; pm[14] = -2.02f;
-		pm[3] = 0.0f; pm[7] = 0.0f; pm[11] = -1.0f; pm[15] = 0.0f;
-
-		matrixBuffer = BufferUtils.newFloatBuffer(16);
-		matrixBuffer.put(pm);
-		matrixBuffer.rewind();
-		Gdx.gl.glUniformMatrix4fv(projectionMatrixLoc, 1, false, matrixBuffer);
-
-	}*/
 
 	@Override
 	public boolean keyDown(int keycode) {

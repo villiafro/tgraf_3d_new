@@ -71,10 +71,6 @@ public class Shader {
         Gdx.gl.glUseProgram(renderingProgramID);
     }
 
-    /*public void setColorLoc(float r, float g, float b, float a){
-        Gdx.gl.glUniform4f(colorLoc, r, g, b, a);
-    }*/
-
     public void setMaterialDiffuse(float r, float g, float b, float a){
         Gdx.gl.glUniform4f(materialDiffuse, r, g, b, a);
     }
@@ -109,10 +105,5 @@ public class Shader {
     public int getProjectionMatrixLoc(){
         return projectionMatrixLoc;
     }
-    /*public int getMaterialDiffuse(){
-        return materialDiffuse;
-    }*/
-    /*public int getColorLoc(){
-        return colorLoc;
-    }*/
+
 }
