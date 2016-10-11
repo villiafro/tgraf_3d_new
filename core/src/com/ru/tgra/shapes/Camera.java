@@ -59,7 +59,7 @@ public class Camera {
     }
 
     public void slide(float delU, float delV, float delN){
-        System.out.println("eye x: " + eye.x + " eye z: " + eye.z);
+        //System.out.println("eye x: " + eye.x + " eye z: " + eye.z);
         ArrayList<Obstacle> obstacles = LabFirst3DGame.getObstacles();
 
         Point3D nextEye = new Point3D();

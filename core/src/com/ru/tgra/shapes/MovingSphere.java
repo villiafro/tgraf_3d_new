@@ -11,8 +11,10 @@ import java.util.Random;
 
 public class MovingSphere {
 
+
     private int colorLoc;
     private float radius;
+    private Shader shader;
     private float deltaTime;
     private float x;
     private float height;
@@ -29,14 +31,16 @@ public class MovingSphere {
         DOWN;
     }
 
-    public MovingSphere(float posX, float posZ, int colorLoc){
+
+    public MovingSphere(float posX, float posZ, Shader shader){
         x = posX;
         //x = 0.5f;
         height = 0.6f;
         z = posZ;
         //z = 1.5f;
         radius = 0.075f;
-        this.colorLoc = colorLoc;
+
+        this.shader = shader;
         direction = Direction.DOWN;
         this.randomizeSphereColor();
     }
@@ -44,9 +48,11 @@ public class MovingSphere {
     public void drawSphere(){
         this.updateHeight();
         ModelMatrix.main.pushMatrix();
-        Gdx.gl.glUniform4f(colorLoc, red, green, blue, 1.0f);
+
+        shader.setMaterialDiffuse(red, green, blue, 1.0f);
         ModelMatrix.main.addTranslation(this.x,this.height,this.z);
         ModelMatrix.main.addScale(this.radius*2,this.radius*2,this.radius*2);
+
         ModelMatrix.main.setShaderMatrix();
         SphereGraphic.drawSolidSphere();
         ModelMatrix.main.popMatrix();
