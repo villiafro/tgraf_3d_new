@@ -133,12 +133,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 		obstacles = new ArrayList<Obstacle>();
 
-        cells = new Cell[10][10];
-        for(int i = 0; i < 10; i++){
-            for(int j = 0; j < 10; j++){
-                cells[i][j] = new Cell();
-            }
-        }
+		Maze maze = new Maze();
+		cells = maze.getCells();
 
 	}
 
@@ -149,6 +145,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	public static Cell[][] getCells(){
         return cells;
     }
+
 
 	private void input()
 	{
@@ -228,8 +225,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
                 /*if(i > 0 && cells[i-1][j].westWall){
 
                 }*/
-                if(arr[randomizer++]){
-                    cells[i][j].westWall = true;
+                if(cells[i][j].westWall){
+                    //cells[i][j].westWall = true;
                     ModelMatrix.main.pushMatrix();
 					//west wall is blue
 					Gdx.gl.glUniform4f(colorLoc, 0.5f, 0.3f, 1.0f, 1.0f);
@@ -242,8 +239,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
                 /*if(j > 0 && cells[i][j-1].southWall){
 
                 }*/
-                if(arr[randomizer++]){
-                    cells[i][j].southWall = true;
+                if(cells[i][j].southWall){
+                    //cells[i][j].southWall = true;
                     ModelMatrix.main.pushMatrix();
 					//south wall is red
 					Gdx.gl.glUniform4f(colorLoc, 1f, 0.0f, 0.0f, 1.0f);

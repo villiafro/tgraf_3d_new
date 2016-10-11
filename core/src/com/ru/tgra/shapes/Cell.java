@@ -11,4 +11,8 @@ public class Cell {
         southWall = false;
         westWall = false;
     }
+    public void setCell(boolean south, boolean west){
+        southWall = south;
+        westWall = west;
+    }
 }
