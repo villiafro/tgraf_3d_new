@@ -11,6 +11,7 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer;
 import com.badlogic.gdx.utils.BufferUtils;
 import com.sun.javafx.sg.prism.NGShape;
@@ -40,6 +41,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	boolean[] arr;
 
 	private static ArrayList<Obstacle> obstacles;
+
+	private MovingSphere movingSphere;
 
     private static Cell[][] cells;
 
@@ -140,6 +143,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
             }
         }
 
+        movingSphere = new MovingSphere(colorLoc);
+
 	}
 
 	public static ArrayList<Obstacle> getObstacles() {
@@ -196,7 +201,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private void update()
 	{
 		deltaTime = Gdx.graphics.getDeltaTime();
-
+		//System.out.println("delta time in update is: " + deltaTime);
 		angle += 180.0f * deltaTime;
 
 		//do all updates to the game
@@ -217,7 +222,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		int maxLevel = 10;
 
 		drawWorld();
-
+		movingSphere.drawSphere();
 		int randomizer = 0;
 
         ModelMatrix.main.pushMatrix();
@@ -271,7 +276,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		update();
 		display();
 	}
-
 
 	public void drawInitialWall(float a, float b, float c, float d, float e, float f) {
 		Obstacle newOb = new Obstacle(a,b,c,d,e,f);
