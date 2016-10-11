@@ -18,10 +18,13 @@ public class Shader {
     private int viewMatrixLoc;
     private int projectionMatrixLoc;
 
+    private int eyePositionLoc;
+
     //private int colorLoc;
     private int lightPosition;
     private int lightDiffuse;
     private int materialDiffuse;
+    private int materialShininess;
 
     public Shader(){
         String vertexShaderString;
@@ -61,6 +64,10 @@ public class Shader {
         lightPosition				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightPosition");
         lightDiffuse				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_lightDiffuse");
         materialDiffuse				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialDiffuse");
+        eyePositionLoc				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_eyePosition");
+        materialShininess				= Gdx.gl.glGetUniformLocation(renderingProgramID, "u_materialShininess");
+
+
         Gdx.gl.glUseProgram(renderingProgramID);
     }
 
@@ -78,6 +85,14 @@ public class Shader {
     public void setLightPosition(float x, float y, float z, float w){
         Gdx.gl.glUniform4f(lightPosition, x, y, z, w);
     }
+
+    public void setEyePositionLoc(float x, float y, float z, float w){
+        Gdx.gl.glUniform4f(eyePositionLoc, x, y, z, w);
+    }
+    public void setMaterialShininess(float shine){
+        Gdx.gl.glUniform1f(materialShininess, shine);
+    }
+
 
     public int getPositionLoc(){
         return positionLoc;

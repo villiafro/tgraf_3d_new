@@ -1,21 +1,14 @@
 package com.ru.tgra.shapes;
 
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
 
-import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer;
-import com.badlogic.gdx.utils.BufferUtils;
-import com.sun.javafx.sg.prism.NGShape;
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match;
 
 public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor {
 
@@ -36,7 +29,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
     private static Cell[][] cells;
 
-	//private ModelMatrix modelMatrix;
 
 	@Override
 	public void create () {
@@ -84,6 +76,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		cam = new Camera(shader.getViewMatrixLoc(), shader.getProjectionMatrixLoc());
 		cam.perspectiveProjection(100,1,0.01f,90);
 		cam.look(new Point3D(0.5f,0.5f,0.5f),new Point3D(5,1.5f,5),new Vector3D(0,5,0));
+
 		rand = new Random();
 		arr = new boolean[200];
 		for(int i = 0; i < 200; i++){
@@ -168,15 +161,16 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 		//shader.setColorLoc(0.5f, 0.3f, 1.0f, 1.0f);
 		//Gdx.gl.glUniform4f(colorLoc, 0.5f, 0.3f, 1.0f, 1.0f);
-		float s = (float)Math.sin(angle*Math.PI/180.0);
-		float c = (float)Math.cos(angle*Math.PI/180.0);
+		//float s = (float)Math.sin(angle*Math.PI/180.0);
+		//float c = (float)Math.cos(angle*Math.PI/180.0);
 
-		shader.setLightPosition(c,10,s,1);
+		shader.setLightPosition(cam.eye.x,1,cam.eye.z,1);
 
 		//s = Math.abs((float)Math.sin((angle/2)*Math.PI/180.0));
 		//c = Math.abs((float)Math.cos((angle*2)*Math.PI/180.0));
 
 		shader.setLightDiffuse(1,1,1,1);
+		shader.setEyePositionLoc(cam.eye.x, cam.eye.y, cam.eye.z,1);
 
 		cam.setShaderMatrix();
 
@@ -186,6 +180,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 		drawWorld();
 		movingSphere.drawSphere();
+
 		int randomizer = 0;
 
         ModelMatrix.main.pushMatrix();
@@ -201,6 +196,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
                     ModelMatrix.main.pushMatrix();
 					//west wall is blue
 					shader.setMaterialDiffuse(0.5f, 0.3f, 1.0f, 1.0f);
+					shader.setMaterialShininess(60);
+
 					//Gdx.gl.glUniform4f(colorLoc, 0.5f, 0.3f, 1.0f, 1.0f);
                     ModelMatrix.main.addTranslation((float)i + 0.5f,0.5f,(float)j);
                     ModelMatrix.main.addScale(1.2f,1f,0.2f);
@@ -216,6 +213,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
                     ModelMatrix.main.pushMatrix();
 					//south wall is red
 					shader.setMaterialDiffuse(1f, 0.0f, 0.0f, 1.0f);
+					shader.setMaterialShininess(60);
 					//Gdx.gl.glUniform4f(colorLoc, 1f, 0.0f, 0.0f, 1.0f);
                     ModelMatrix.main.addTranslation((float)i,0.5f,(float)j + 0.5f);
                     ModelMatrix.main.addScale(0.2f,1f,1.2f);
@@ -246,6 +244,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		Obstacle newOb = new Obstacle(a,b,c,d,e,f);
 		obstacles.add(newOb);
 
+		shader.setMaterialDiffuse(0.5f, 0.3f, 1.0f, 1.0f);
+		shader.setMaterialShininess(160);
 		ModelMatrix.main.pushMatrix();
 		ModelMatrix.main.addTranslation(a, b, c);
 		ModelMatrix.main.addScale(d, e, f);
