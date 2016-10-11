@@ -11,6 +11,7 @@ import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.g3d.Model;
 import com.badlogic.gdx.graphics.g3d.particles.influencers.ColorInfluencer;
 import com.badlogic.gdx.utils.BufferUtils;
 import com.sun.javafx.sg.prism.NGShape;
@@ -40,6 +41,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	boolean[] arr;
 
 	private static ArrayList<Obstacle> obstacles;
+
+	private MovingSphere movingSphere;
 
     private static Cell[][] cells;
 
@@ -121,10 +124,10 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		//PerspctiveProjection3D();
 		//Look3D(new Point3D(1.5f, 1.2f, 2.0f), new Point3D(0,0,0), new Vector3D(0,1,0));
 
+
 		cam = new Camera(viewMatrixLoc, projectionMatrixLoc);
 		cam.perspectiveProjection(100,1,0.01f,90);
 		cam.look(new Point3D(0.5f,0.5f,0.5f),new Point3D(5,1.5f,5),new Vector3D(0,5,0));
-
 		rand = new Random();
 		arr = new boolean[200];
 		for(int i = 0; i < 200; i++){
@@ -135,6 +138,8 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 
 		Maze maze = new Maze();
 		cells = maze.getCells();
+
+        movingSphere = new MovingSphere(colorLoc);
 
 	}
 
@@ -193,7 +198,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 	private void update()
 	{
 		deltaTime = Gdx.graphics.getDeltaTime();
-
+		//System.out.println("delta time in update is: " + deltaTime);
 		angle += 180.0f * deltaTime;
 
 		//do all updates to the game
@@ -214,7 +219,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		int maxLevel = 10;
 
 		drawWorld();
-
+		movingSphere.drawSphere();
 		int randomizer = 0;
 
         ModelMatrix.main.pushMatrix();
@@ -269,7 +274,6 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		display();
 	}
 
-
 	public void drawInitialWall(float a, float b, float c, float d, float e, float f) {
 		Obstacle newOb = new Obstacle(a,b,c,d,e,f);
 		obstacles.add(newOb);
@@ -294,6 +298,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
         Gdx.gl.glUniform4f(colorLoc, 0.5f, 0.3f, 1.0f, 1.0f);*/
 
 		//BOTTOM
+
 		drawInitialWall(5f, 0f, 5f,10, 0.2f, 10);
 		//FRONT
 		drawInitialWall(0f, 0.5f, 5f,0.2f, 1, 10);
