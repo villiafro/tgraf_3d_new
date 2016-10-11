@@ -32,6 +32,7 @@ public class Camera {
     private int viewMatrixPointer;
     private int projectionMatrixPointer;
     private FloatBuffer matrixBuffer;
+    private static ArrayList<MovingSphere> movingSpheres;
 
     public Camera(int matrixPointer, int projectionMatrixPointer){
         this.viewMatrixPointer = matrixPointer;
@@ -44,6 +45,8 @@ public class Camera {
         n = new Vector3D(0,0,1);
 
         offset = 0.1f;
+
+        movingSpheres = new ArrayList<MovingSphere>();
     }
 
     public void look(Point3D eye, Point3D center, Vector3D up){
@@ -65,9 +68,35 @@ public class Camera {
         for(int i = 0; i < obstacles.size(); i++){
             checkWall(obstacles.get(i), nextEye);
         }
+        for (MovingSphere sphere:movingSpheres) {
+            checkSphereCollision(sphere);
+        }
         //eye.x = nextEye.x;
         //eye.y += delU*u.y + delV*v.y + delN*n.y;
         //eye.z = nextEye.z;
+    }
+    void checkSphereCollision(MovingSphere movingSphere){
+        float currDistanceFromSphere = (((movingSphere.getX()-eye.x)*(movingSphere.getX()-eye.x))+((movingSphere.getZ()-eye.z)*(movingSphere.getZ()-eye.z)));
+        System.out.println("the distance from sphere is: " + currDistanceFromSphere);
+        System.out.println("Value sphere x is: " + movingSphere.getX());
+        System.out.println("Value eye x is:" + eye.x);
+        System.out.println("Value sphere y is: " + movingSphere.getZ());
+        System.out.println("Value eye z is: "+  eye.z);
+        if(currDistanceFromSphere <= movingSphere.getRadius()-0.045){//fine tuned value... >.>
+            System.out.println("I think we are inside of the sphere");
+            teleportCamera();
+            for (MovingSphere sphere:movingSpheres) {
+                sphere.randomizeSphereColor();
+            }
+            //movingSphere.randomizeSphereColor();
+        }
+    }
+    //yolo when we hit the sphere
+    void teleportCamera(){
+        //this.eye.z = 0.5f;
+        //this.eye.x = 0.5f;
+
+        this.look(new Point3D(0.5f,0.5f,0.5f),new Point3D(5,1.5f,5),new Vector3D(0,5,0));
     }
 
     void checkWall(Obstacle ob, Point3D tempEye){
@@ -241,4 +270,7 @@ public class Camera {
         Gdx.gl.glUniformMatrix4fv(viewMatrixPointer, 1, false, matrixBuffer);
     }
 
+    public void addMovingSphere(MovingSphere movingSphere){
+        movingSpheres.add(movingSphere);
+    }
 }
