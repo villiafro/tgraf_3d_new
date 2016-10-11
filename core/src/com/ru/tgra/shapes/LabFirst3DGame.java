@@ -230,7 +230,9 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
                 if(arr[randomizer++]){
                     cells[i][j].westWall = true;
                     ModelMatrix.main.pushMatrix();
-                    ModelMatrix.main.addTranslation((float)i + 0.5f,0.5f,(float)j + 0.0f);
+					//west wall is blue
+					Gdx.gl.glUniform4f(colorLoc, 0.5f, 0.3f, 1.0f, 1.0f);
+                    ModelMatrix.main.addTranslation((float)i + 0.5f,0.5f,(float)j);
                     ModelMatrix.main.addScale(1.2f,1f,0.2f);
                     ModelMatrix.main.setShaderMatrix();
                     BoxGraphic.drawSolidCube();
@@ -242,7 +244,9 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
                 if(arr[randomizer++]){
                     cells[i][j].southWall = true;
                     ModelMatrix.main.pushMatrix();
-                    ModelMatrix.main.addTranslation((float)j + 0.0f,0.5f,(float)i + 0.5f);
+					//south wall is red
+					Gdx.gl.glUniform4f(colorLoc, 1f, 0.0f, 0.0f, 1.0f);
+                    ModelMatrix.main.addTranslation((float)i,0.5f,(float)j + 0.5f);
                     ModelMatrix.main.addScale(0.2f,1f,1.2f);
                     ModelMatrix.main.setShaderMatrix();
                     BoxGraphic.drawSolidCube();
@@ -283,7 +287,7 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
         Gdx.gl.glUniform4f(colorLoc, 0.2f, 0.7f, 0.2f, 1.0f);
         ModelMatrix.main.pushMatrix();
         ModelMatrix.main.addTranslation(cam.eye.x, 0.5f, cam.eye.z);
-        ModelMatrix.main.addScale(0.5f, 0.5f, 0.5f);
+        ModelMatrix.main.addScale(0.1f, 0.1f, 0.1f);
         ModelMatrix.main.setShaderMatrix();
         BoxGraphic.drawSolidCube();
         ModelMatrix.main.popMatrix();

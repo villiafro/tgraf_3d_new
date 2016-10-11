@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.BufferUtils;
 import com.ru.tgra.shapes.LabFirst3DGame;
 
+import java.awt.*;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class Camera {
         v = new Vector3D(0,1,0);
         n = new Vector3D(0,0,1);
 
-        offset = 0.5f;
+        offset = 0.1f;
     }
 
     public void look(Point3D eye, Point3D center, Vector3D up){
@@ -62,37 +63,37 @@ public class Camera {
     void checkWall(Obstacle ob, Point3D tempEye){
 
         if(eye.z < tempEye.z){
-            if(!(eye.z+offset/2 >= ob.getZcord()-ob.getZscale())){
-                //if(checkMazeSouth(true)){
+            if(!(eye.z+offset/2 >= ob.getZcord()-(ob.getZscale()/2))){
+                if(checkMazeWest(true, tempEye)){
                     eye.z = tempEye.z;
-                //}
+                }
             }
         }
         else if(eye.z > tempEye.z){
-            if(!(eye.z-offset/2 <= ob.getZcord()+ob.getZscale())){
-                //if(checkMazeSouth(false)){
+            if(!(eye.z-offset/2 <= ob.getZcord()+(ob.getZscale()/2))){
+                if(checkMazeWest(false, tempEye)){
                     eye.z = tempEye.z;
-                //}
+                }
             }
         }
 
         if(eye.x > tempEye.x){
-            if(eye.x-offset/2 >= ob.getXcord()+ob.getXscale()){
-                //if(checkMazeWest(true)){
+            if(eye.x-offset/2 >= ob.getXcord()+(ob.getXscale()/2)){
+                if(checkMazeSouth(false, tempEye)){
                     eye.x = tempEye.x;
-                //}
+                }
             }
         }
         else if(eye.x < tempEye.x){
-            if(eye.x+offset/2 <= ob.getXcord()-ob.getXscale()){
-                //if(checkMazeWest(false)){
+            if(eye.x+offset/2 <= ob.getXcord()-(ob.getXscale()/2)){
+                if(checkMazeSouth(true, tempEye)){
                     eye.x = tempEye.x;
-                //}
+                }
             }
         }
     }
 
-    boolean checkMazeSouth(boolean up){
+    boolean checkMazeSouth(boolean up, Point3D tempEye){
         int x = (int)eye.x;
         int z = (int)eye.z;
         System.out.println("x: " + x + " z: " + z);
@@ -101,32 +102,42 @@ public class Camera {
 
         if(!up){
             if(cells[x][z].southWall){
-                return false;
+                if(tempEye.x-offset/2 <= x + 0.1){
+                    return false;
+                }
             }
         }
-        else if(z<10){
-            if(cells[x][z+1].southWall){
-                return false;
+        else if(x<9){
+            if(cells[x+1][z].southWall){
+                if(tempEye.x+offset/2 >= (x+1  - 0.1)){
+                    //System.out.println("where we are: " + (tempEye.x+offset/2) + "where we cant be: " + (x+1  - 0.1));
+                    return false;
+                }
             }
         }
         return true;
 
     }
 
-    boolean checkMazeWest(boolean right){
+    boolean checkMazeWest(boolean right, Point3D tempEye){
         int x = (int)eye.x;
         int z = (int)eye.z;
+        System.out.println("x: " + x + " z: " + z);
 
         Cell[][] cells = LabFirst3DGame.getCells();
 
         if(!right){
             if(cells[x][z].westWall){
-                return false;
+                if(tempEye.z-offset/2 <= z + 0.1){
+                    return false;
+                }
             }
         }
-        else if(x<10){
-            if(cells[x+1][z].westWall){
-                return false;
+        else if(z<9){
+            if(cells[x][z+1].westWall){
+                if(tempEye.z+offset/2 >= z + 1 - 0.1){
+                    return false;
+                }
             }
         }
         return true;
