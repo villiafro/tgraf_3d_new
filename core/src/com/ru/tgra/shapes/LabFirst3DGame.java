@@ -166,16 +166,16 @@ public class LabFirst3DGame extends ApplicationAdapter implements InputProcessor
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.A)) {
-			cam.slide(-3.0f * deltaTime, 0, 0);
+			cam.slide(-1.0f * deltaTime, 0, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.D)) {
-			cam.slide(3.0f * deltaTime, 0, 0);
+			cam.slide(1.0f * deltaTime, 0, 0);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.W)) {
-			cam.slide(0, 0, -3.0f * deltaTime);
+			cam.slide(0, 0, -1.0f * deltaTime);
 		}
 		if(Gdx.input.isKeyPressed(Input.Keys.S)) {
-			cam.slide(0, 0, 3.0f * deltaTime);
+			cam.slide(0, 0, 1.0f * deltaTime);
 		}
 
 		if(Gdx.input.isKeyPressed(Input.Keys.R)) {
